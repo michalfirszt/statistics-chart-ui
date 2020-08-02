@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Website } from '../website';
 
 @Component({
   selector: 'app-statistics',
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StatisticsComponent implements OnInit {
 
-  constructor() { }
+  websites: Website[];
+
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
+    this.getWebsites();
+  }
+
+  getWebsites(): void {
+    const url = 'http://localhost:8000/api/websites';
+
+    this.http.get<Website[]>(url).subscribe((websites) => {
+      this.websites = websites;
+    }, error => {
+      console.log(JSON.stringify(error));
+    });
   }
 
 }
