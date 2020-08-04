@@ -10,6 +10,13 @@ import { Website } from '../website';
 export class StatisticsComponent implements OnInit {
 
   websites: Website[];
+  chartOptions = {
+    responsive: true
+  };
+  chartLabels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  chartData = [
+    {data: [], label: 'exampleLabel'}
+  ];
 
   constructor(private http: HttpClient) { }
 
