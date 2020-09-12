@@ -13,9 +13,9 @@ export class StatisticsComponent implements OnInit {
   chartOptions = {
     responsive: true
   };
-  chartLabels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  chartLabels = [];
   chartData = [
-    {data: [], label: 'exampleLabel'}
+    {data: [], label: 'Visits'}
   ];
 
   constructor(private http: HttpClient) { }
@@ -29,6 +29,12 @@ export class StatisticsComponent implements OnInit {
 
     this.http.get<Website[]>(url).subscribe((websites) => {
       this.websites = websites;
+
+      this.websites.forEach(website => {
+        this.chartLabels.push(website.name);
+
+        this.chartData[0].data.push(website.visits.length);
+      });
     }, error => {
       console.log(JSON.stringify(error));
     });
