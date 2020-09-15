@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+
 import { Website } from '../website';
+import { WebsiteService } from '../website.service';
 
 @Component({
   selector: 'app-statistics',
@@ -18,16 +19,14 @@ export class StatisticsComponent implements OnInit {
     {data: [], label: 'Visits'}
   ];
 
-  constructor(private http: HttpClient) { }
+  constructor(private websiteService: WebsiteService) { }
 
   ngOnInit(): void {
     this.getWebsites();
   }
 
   getWebsites(): void {
-    const url = 'http://localhost:8000/api/websites';
-
-    this.http.get<Website[]>(url).subscribe((websites) => {
+    this.websiteService.getWebsites().subscribe((websites) => {
       this.websites = websites;
 
       this.websites.forEach(website => {
