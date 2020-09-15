@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+
 import { Website } from '../website';
+import { WebsiteService } from '../website.service';
 
 @Component({
   selector: 'app-statistics',
@@ -15,25 +16,25 @@ export class StatisticsComponent implements OnInit {
   };
   chartLabels = [];
   chartData = [
-    {data: [], label: 'Visits'}
+    {data: [], label: 'Visits'},
+    {data: [], label: 'Stars'},
   ];
 
-  constructor(private http: HttpClient) { }
+  constructor(private websiteService: WebsiteService) { }
 
   ngOnInit(): void {
     this.getWebsites();
   }
 
   getWebsites(): void {
-    const url = 'http://localhost:8000/api/websites';
-
-    this.http.get<Website[]>(url).subscribe((websites) => {
+    this.websiteService.getWebsites().subscribe((websites) => {
       this.websites = websites;
 
       this.websites.forEach(website => {
         this.chartLabels.push(website.name);
 
         this.chartData[0].data.push(website.visits.length);
+        this.chartData[1].data.push(website.stars);
       });
     }, error => {
       console.log(JSON.stringify(error));
