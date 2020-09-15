@@ -16,7 +16,8 @@ export class StatisticsComponent implements OnInit {
   };
   chartLabels = [];
   chartData = [
-    {data: [], label: 'Visits'}
+    {data: [], label: 'Visits'},
+    {data: [], label: 'Stars'},
   ];
 
   constructor(private websiteService: WebsiteService) { }
@@ -33,6 +34,7 @@ export class StatisticsComponent implements OnInit {
         this.chartLabels.push(website.name);
 
         this.chartData[0].data.push(website.visits.length);
+        this.chartData[1].data.push(website.stars);
       });
     }, error => {
       console.log(JSON.stringify(error));
